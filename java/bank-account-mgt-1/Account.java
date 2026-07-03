@@ -36,10 +36,7 @@ public abstract class Account {
         return balance;
     }
 
-    public void setBalance(double balance) {
-        if (balance < 0) {
-            throw new IllegalArgumentException("Balance cannot be negative.");
-        }
+    protected void setBalance(double balance) {
         this.balance = balance;
     }
 
@@ -58,15 +55,15 @@ public abstract class Account {
         if (amount <= 0) {
             return false;
         }
-        this.balance += amount;
+        setBalance(getBalance() + amount);
         return true;
     }
 
     public boolean withdraw(double amount) {
-        if (amount <= 0 || amount > balance) {
+        if (amount <= 0 || amount > getBalance()) {
             return false;
         }
-        this.balance -= amount;
+        setBalance(getBalance() - amount);
         return true;
     }
 }
