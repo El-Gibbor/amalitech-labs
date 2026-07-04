@@ -57,5 +57,9 @@ public abstract class Customer {
 
     public abstract void displayCustomerDetails();
     public abstract String getCustomerType();
+
+    public boolean hasWaivedFees() {
+        return false; // Default, but overridden by subclasses
+    }
 }
 

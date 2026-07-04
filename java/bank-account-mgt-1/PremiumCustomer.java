@@ -30,6 +30,7 @@ public class PremiumCustomer extends Customer {
         return "Premium";
     }
 
+    @Override
     public boolean hasWaivedFees() {
         return true;
     }
