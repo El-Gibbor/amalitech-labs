@@ -1,4 +1,4 @@
-public abstract class Account {
+public abstract class Account implements Transactable {
     private String accountNumber;
     private Customer customer;
     private double balance;
@@ -65,5 +65,16 @@ public abstract class Account {
         }
         setBalance(getBalance() - amount);
         return true;
+    }
+
+    // Implements transaction contract
+    @Override
+    public boolean processTransaction(double amount, String type) {
+        if ("deposit".equalsIgnoreCase(type)) {
+            return deposit(amount);
+        } else if ("withdraw".equalsIgnoreCase(type)) {
+            return withdraw(amount);
+        }
+        return false;
     }
 }
