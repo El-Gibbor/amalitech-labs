@@ -4,6 +4,7 @@ import java.time.format.DateTimeFormatter;
 public class Transaction {
     private static int transactionCounter = 0;
 
+    // all final: a completed transaction is an immutable record
     private final String transactionId;
     private final String accountNumber;
     private final double amount;

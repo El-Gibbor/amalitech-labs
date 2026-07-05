@@ -24,8 +24,12 @@ public class SavingsAccount extends Account {
         return "Savings";
     }
 
+    // reject if min balance is not met, then let Account do the subtraction
     @Override
     public boolean withdraw(double amount) {
+        if (getBalance() - amount < minimumBalance) {
+            return false;
+        }
         return super.withdraw(amount);
     }
 

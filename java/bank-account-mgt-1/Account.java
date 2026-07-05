@@ -36,6 +36,7 @@ public abstract class Account implements Transactable {
         return balance;
     }
 
+    // protected: subclasses may set balance directly (e.g. overdraft)
     protected void setBalance(double balance) {
         this.balance = balance;
     }
