@@ -28,6 +28,12 @@ public class CheckingAccount extends Account {
         return "Checking";
     }
 
+    @Override
+    protected void displayTypeSummaryLine() {
+        System.out.printf("         | Overdraft Limit: $%,.2f | Monthly Fee: $%,.2f%n",
+                overdraftLimit, monthlyFee);
+    }
+
     // Override to allow overdraft, unlike SavingsAccount
     @Override
     public boolean withdraw(double amount) {

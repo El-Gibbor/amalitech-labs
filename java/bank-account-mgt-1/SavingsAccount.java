@@ -24,6 +24,12 @@ public class SavingsAccount extends Account {
         return "Savings";
     }
 
+    @Override
+    protected void displayTypeSummaryLine() {
+        System.out.printf("         | Interest Rate: %.1f%% | Min Balance: $%,.2f%n",
+                interestRate * 100, minimumBalance);
+    }
+
     // reject if min balance is not met, then let Account do the subtraction
     @Override
     public boolean withdraw(double amount) {

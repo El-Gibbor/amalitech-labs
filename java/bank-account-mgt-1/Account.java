@@ -52,6 +52,9 @@ public abstract class Account implements Transactable {
     public abstract void displayAccountDetails();
     public abstract String getAccountType();
 
+    // Subclass prints its own type-specific summary sub-line for the listing table
+    protected abstract void displayTypeSummaryLine();
+
     public boolean deposit(double amount) {
         if (amount <= 0) {
             return false;
