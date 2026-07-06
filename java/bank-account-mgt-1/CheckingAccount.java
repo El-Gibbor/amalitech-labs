@@ -10,13 +10,17 @@ public class CheckingAccount extends Account {
 
     @Override
     public void displayAccountDetails() {
-        System.out.println("Account Number: " + getAccountNumber());
-        System.out.println("Customer ID: " + getCustomer().getCustomerId());
-        System.out.println("Customer Name: " + getCustomer().getName());
-        System.out.println("Balance: " + getBalance());
-        System.out.println("Overdraft Limit: " + overdraftLimit);
-        System.out.println("Monthly Fee: " + monthlyFee);
-        System.out.println("Status: " + getStatus());
+        System.out.println("  Account Number: " + getAccountNumber());
+        System.out.println("  Customer: " + getCustomer().getName() + " (" + getCustomer().getCustomerType() + ")");
+        System.out.println("  Account Type: " + getAccountType());
+        System.out.printf("  Balance: $%,.2f%n", getBalance());
+        System.out.printf("  Overdraft Limit: $%,.2f%n", overdraftLimit);
+        if (getCustomer().hasWaivedFees()) {
+            System.out.println("  Monthly Fee: $0.00 (WAIVED - Premium Customer)");
+        } else {
+            System.out.printf("  Monthly Fee: $%,.2f%n", monthlyFee);
+        }
+        System.out.println("  Status: " + getStatus());
     }
 
     @Override

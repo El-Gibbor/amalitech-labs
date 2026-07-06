@@ -73,7 +73,7 @@ public abstract class Account implements Transactable {
     public boolean processTransaction(double amount, String type) {
         if ("deposit".equalsIgnoreCase(type)) {
             return deposit(amount);
-        } else if ("withdraw".equalsIgnoreCase(type)) {
+        } else if ("withdrawal".equalsIgnoreCase(type)) {
             return withdraw(amount);
         }
         return false;

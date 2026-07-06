@@ -10,13 +10,13 @@ public class SavingsAccount extends Account {
 
     @Override
     public void displayAccountDetails() {
-        System.out.println("Account Number: " + getAccountNumber());
-        System.out.println("Customer ID: " + getCustomer().getCustomerId());
-        System.out.println("Customer Name: " + getCustomer().getName());
-        System.out.println("Balance: " + getBalance());
-        System.out.println("Interest Rate: " + interestRate);
-        System.out.println("Minimum Balance: " + minimumBalance);
-        System.out.println("Status: " + getStatus());
+        System.out.println("  Account Number: " + getAccountNumber());
+        System.out.println("  Customer: " + getCustomer().getName() + " (" + getCustomer().getCustomerType() + ")");
+        System.out.println("  Account Type: " + getAccountType());
+        System.out.printf("  Balance: $%,.2f%n", getBalance());
+        System.out.printf("  Interest Rate: %.1f%%%n", interestRate * 100);
+        System.out.printf("  Minimum Balance: $%,.2f%n", minimumBalance);
+        System.out.println("  Status: " + getStatus());
     }
 
     @Override

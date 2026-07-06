@@ -40,7 +40,7 @@ public class TransactionManager {
         double totalWithdrawals = 0;
         for (int i = 0; i < transactionCount; i++) {
             if (transactions[i].getAccountNumber().equals(accountNumber)
-                    && transactions[i].getType().equalsIgnoreCase("withdraw")) {
+                    && transactions[i].getType().equalsIgnoreCase("withdrawal")) {
                 totalWithdrawals += transactions[i].getAmount();
             }
         }
