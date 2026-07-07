@@ -1,12 +1,3 @@
-# Bank Account Management System
-
-A console-based Java application for managing bank accounts, customers, and
-transactions. It demonstrates core object-oriented programming principles:
-encapsulation, inheritance, polymorphism, abstraction, and composition, along
-with basic data-structure and search logic using arrays.
-
----
-
 ## Features
 
 | Feature | Description |
