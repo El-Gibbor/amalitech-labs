@@ -25,10 +25,8 @@ public class Main {
             System.out.println("3. Process Transaction");
             System.out.println("4. View Transactions history");
             System.out.println("5. Exit\n");
-            System.out.print("Enter choice: ");
 
-            int choice = scanner.nextInt();
-            scanner.nextLine(); // consume the newline
+            int choice = readInt(scanner, "Enter choice: ");
 
             switch (choice) {
                 case 1: {
@@ -38,9 +36,7 @@ public class Main {
                     System.out.print("Enter customer name: ");
                     String name = scanner.nextLine();
 
-                    System.out.print("Enter customer age: ");
-                    int age = scanner.nextInt();
-                    scanner.nextLine(); // discard leftover newline
+                    int age = readIntInRange(scanner, "Enter customer age: ", 1, 120);
 
                     System.out.print("Enter customer contact: ");
                     String contact = scanner.nextLine();
@@ -51,9 +47,7 @@ public class Main {
                     System.out.println("\nCustomer type:");
                     System.out.println("1. Regular Customer (Standard banking services)");
                     System.out.println("2. Premium Customer (Enhanced benefits, min balance $10,000)");
-                    System.out.print("\nSelect type (1-2): ");
-                    int customerType = scanner.nextInt();
-                    scanner.nextLine();
+                    int customerType = readIntInRange(scanner, "\nSelect type (1-2): ", 1, 2);
 
                     Customer customer;
                     if (customerType == 2) {
@@ -65,13 +59,9 @@ public class Main {
                     System.out.println("\nAccount type:");
                     System.out.println("1. Savings Account (Interest: 3.5%, Min Balance: $500)");
                     System.out.println("2. Checking Account (Overdraft: $1,000, Monthly Fee: $10)");
-                    System.out.print("\nSelect type (1-2): ");
-                    int accountType = scanner.nextInt();
-                    scanner.nextLine();
+                    int accountType = readIntInRange(scanner, "\nSelect type (1-2): ", 1, 2);
 
-                    System.out.print("\nEnter initial deposit amount: $");
-                    double initialDeposit = scanner.nextDouble();
-                    scanner.nextLine();
+                    double initialDeposit = readPositiveDouble(scanner, "\nEnter initial deposit amount: $");
 
                     Account account;
                     if (accountType == 2) {
@@ -123,9 +113,7 @@ public class Main {
                     System.out.println("\nTransaction type:");
                     System.out.println("1. Deposit");
                     System.out.println("2. Withdrawal");
-                    System.out.print("\nSelect type (1-2): ");
-                    int transactionType = scanner.nextInt();
-                    scanner.nextLine();
+                    int transactionType = readIntInRange(scanner, "\nSelect type (1-2): ", 1, 2);
 
                     String type;
                     if (transactionType == 2) {
@@ -134,9 +122,7 @@ public class Main {
                         type = "Deposit";
                     }
 
-                    System.out.print("\nEnter amount: $");
-                    double amount = scanner.nextDouble();
-                    scanner.nextLine();
+                    double amount = readPositiveDouble(scanner, "\nEnter amount: $");
 
                     double previousBalance = account.getBalance();
                     boolean success = account.processTransaction(amount, type);
@@ -222,6 +208,8 @@ public class Main {
                             sign = "-";
                         }
                         System.out.println();
+                        System.out.println("Total Transactions: "
+                                + transactionManager.getTransactionCountByAccount(account.getAccountNumber()));
                         System.out.printf("Total Deposits: $%,.2f%n", totalDeposits);
                         System.out.printf("Total Withdrawals: $%,.2f%n", totalWithdrawals);
                         System.out.printf("Net Change: %s$%,.2f%n", sign, Math.abs(netChange));
@@ -241,6 +229,49 @@ public class Main {
         }
 
         scanner.close();
+    }
+
+    // re-prompts until the input is a valid integer (no crash on letters)
+    private static int readInt(Scanner scanner, String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            if (scanner.hasNextInt()) {
+                int value = scanner.nextInt();
+                scanner.nextLine(); // consume the trailing newline
+                return value;
+            }
+            scanner.nextLine(); // discard the invalid token
+            System.out.println("Invalid input. Please enter a whole number.");
+        }
+    }
+
+    // Reads an integer and re-prompts until it falls within [min, max]
+    private static int readIntInRange(Scanner scanner, String prompt, int min, int max) {
+        while (true) {
+            int value = readInt(scanner, prompt);
+            if (value >= min && value <= max) {
+                return value;
+            }
+            System.out.printf("Please enter a number between %d and %d.%n", min, max);
+        }
+    }
+
+    // Reads a positive amount, rejecting non-numbers, zero or negative values
+    private static double readPositiveDouble(Scanner scanner, String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            if (scanner.hasNextDouble()) {
+                double value = scanner.nextDouble();
+                scanner.nextLine();
+                if (value > 0) {
+                    return value;
+                }
+                System.out.println("Amount must be greater than 0.");
+            } else {
+                scanner.nextLine();
+                System.out.println("Invalid input. Please enter a valid amount.");
+            }
+        }
     }
 
     // Bootstrap: five demo accounts (3 Savings, 2 Checking)

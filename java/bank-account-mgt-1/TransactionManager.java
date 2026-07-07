@@ -91,6 +91,17 @@ public class TransactionManager {
         return transactionCount;
     }
 
+    // Count how many recorded transactions belong to a single account
+    public int getTransactionCountByAccount(String accountNumber) {
+        int count = 0;
+        for (int i = 0; i < transactionCount; i++) {
+            if (transactions[i].getAccountNumber().equals(accountNumber)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
     // Column width = the larger of its minimum and the widest cell (header or any row)
     private static int[] columnWidths(String[] headers, String[][] rows, int[] minWidths) {
         int[] widths = new int[headers.length];

@@ -45,7 +45,7 @@ public class AccountManager {
         String rowFormat = buildRowFormat(widths);
         String divider = buildDivider(widths);
 
-        System.out.println("ACCOUNT LISTING");
+        System.out.println("\nACCOUNT LISTING");
         System.out.println(divider);
         System.out.printf(rowFormat, (Object[]) headers);
         System.out.println(divider);
