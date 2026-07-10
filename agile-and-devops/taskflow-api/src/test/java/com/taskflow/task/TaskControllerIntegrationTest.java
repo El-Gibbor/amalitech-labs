@@ -1,0 +1,56 @@
+package com.taskflow.task;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.taskflow.task.dto.CreateTaskRequest;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@SpringBootTest
+@AutoConfigureMockMvc
+@Transactional
+class TaskControllerIntegrationTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @Test
+    void createTaskWithValidPayloadReturnsCreatedTaskWithTodoStatus() throws Exception {
+        CreateTaskRequest request = new CreateTaskRequest();
+        request.setTitle("Prepare sprint review");
+        request.setDescription("Summarize delivered stories");
+        request.setPriority(Priority.MEDIUM);
+
+        mockMvc.perform(post("/api/tasks")
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id").isNumber())
+                .andExpect(jsonPath("$.title").value("Prepare sprint review"))
+                .andExpect(jsonPath("$.status").value("TODO"))
+                .andExpect(jsonPath("$.priority").value("MEDIUM"));
+    }
+
+    @Test
+    void createTaskWithBlankTitleIsRejected() throws Exception {
+        CreateTaskRequest request = new CreateTaskRequest();
+        request.setTitle(" ");
+        request.setPriority(Priority.LOW);
+
+        mockMvc.perform(post("/api/tasks")
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isBadRequest());
+    }
+}
