@@ -1,0 +1,32 @@
+TaskFlow API test evidence
+Captured from a real local run of: mvn test
+Date: 2026-07-12 18:58 UTC
+Java: openjdk version "11.0.31" 2026-04-21
+Maven: Apache Maven 3.9.9 (8e8579a9e76f7d015ee5ec7bfcdc97d260186937)
+
+===== Summary =====
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 9.656 s - in com.taskflow.task.TaskControllerIntegrationTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.287 s - in com.taskflow.task.TaskServiceTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.039 s - in com.taskflow.HealthCheckIntegrationTest
+[INFO] Tests run: 17, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD SUCCESS
+
+===== Per-class Surefire reports =====
+--- target/surefire-reports/com.taskflow.HealthCheckIntegrationTest.txt ---
+-------------------------------------------------------------------------------
+Test set: com.taskflow.HealthCheckIntegrationTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.039 s - in com.taskflow.HealthCheckIntegrationTest
+
+--- target/surefire-reports/com.taskflow.task.TaskControllerIntegrationTest.txt ---
+-------------------------------------------------------------------------------
+Test set: com.taskflow.task.TaskControllerIntegrationTest
+-------------------------------------------------------------------------------
+Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 9.656 s - in com.taskflow.task.TaskControllerIntegrationTest
+
+--- target/surefire-reports/com.taskflow.task.TaskServiceTest.txt ---
+-------------------------------------------------------------------------------
+Test set: com.taskflow.task.TaskServiceTest
+-------------------------------------------------------------------------------
+Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.287 s - in com.taskflow.task.TaskServiceTest
+

@@ -35,6 +35,7 @@ This time I ran the actual application locally for this demo rather than only re
 
 I have 17 automated tests, all passing when I run mvn test. That is 9 integration tests in TaskControllerIntegrationTest, 7 unit tests in TaskServiceTest, and 1 integration test in the new HealthCheckIntegrationTest. I did not write an automated test asserting on log output itself, since that would have meant introducing a Logback test appender, which felt like more complexity than this stage of the project needed. Instead I verified the logging manually by running the application and reading the console output.
 
+The raw results from this run, including the Surefire report for each test class, are saved in docs/evidence/test-results.txt. A real passing run of the CI pipeline on GitHub Actions is saved in docs/evidence/ci-run-12cc514.log, pulled directly from the workflow run.
 ## Commit history
 
 I kept the same small, single purpose commit habit from the end of Sprint 1 going all the way through Sprint 2. Story 5 was three commits, the dependency, the test, and I confirmed the build compiled before committing either one. Story 6 was two commits, one for the TaskService logging and one for the ApiExceptionHandler logging, and I ran the full test suite before each commit rather than after.

@@ -31,9 +31,43 @@ I verified the following behavior by hand and through automated tests.
 5. Sending a PATCH to /api/tasks/{id}/status with a status of IN_PROGRESS returns a 200 response with the updated status.
 6. Sending a PATCH to /api/tasks/{id}/status with an invalid value like BOGUS returns a 400 response, and a follow up GET confirms the task's status was not changed.
 
+Below is a real transcript from running the application locally and hitting each endpoint with curl, followed by the matching application log lines.
+
+```
+$ curl -s -X POST http://localhost:8080/api/tasks -H "Content-Type: application/json" -d '{"title":"Write Sprint 1 review","description":"Summarize delivered stories","priority":"HIGH"}'
+{"id":1,"title":"Write Sprint 1 review","description":"Summarize delivered stories","priority":"HIGH","status":"TODO"}
+
+$ curl -s -X POST http://localhost:8080/api/tasks -H "Content-Type: application/json" -d '{"title":""}'
+{"message":"Validation failed","details":["title must not be blank","priority must not be null"]}
+
+$ curl -s http://localhost:8080/api/tasks
+[{"id":1,"title":"Write Sprint 1 review","description":"Summarize delivered stories","priority":"HIGH","status":"TODO"}]
+
+$ curl -s http://localhost:8080/api/tasks/1
+{"id":1,"title":"Write Sprint 1 review","description":"Summarize delivered stories","priority":"HIGH","status":"TODO"}
+
+$ curl -s http://localhost:8080/api/tasks/999
+{"message":"Task not found with id 999","details":[]}
+
+$ curl -s -X PATCH http://localhost:8080/api/tasks/1/status -H "Content-Type: application/json" -d '{"status":"IN_PROGRESS"}'
+{"id":1,"title":"Write Sprint 1 review","description":"Summarize delivered stories","priority":"HIGH","status":"IN_PROGRESS"}
+
+$ curl -s http://localhost:8080/api/tasks/1
+{"id":1,"title":"Write Sprint 1 review","description":"Summarize delivered stories","priority":"HIGH","status":"IN_PROGRESS"}
+```
+
+Matching application console output for the same run:
+
+```
+2026-07-12 21:05:55.056  INFO 126528 --- [nio-8080-exec-1] com.taskflow.task.TaskService            : Created task id=1 title="Write Sprint 1 review"
+2026-07-12 21:05:55.097  WARN 126528 --- [nio-8080-exec-2] com.taskflow.common.ApiExceptionHandler  : Validation failed: [title must not be blank, priority must not be null]
+2026-07-12 21:05:55.242  WARN 126528 --- [nio-8080-exec-7] com.taskflow.common.ApiExceptionHandler  : Task not found with id 999
+2026-07-12 21:05:55.286  INFO 126528 --- [nio-8080-exec-9] com.taskflow.task.TaskService            : Updated task id=1 status=IN_PROGRESS
+```
+
 ## Test evidence
 
-I have 16 automated tests, all passing when I run mvn test. That is 9 integration tests in TaskControllerIntegrationTest and 7 unit tests in TaskServiceTest.
+I have 16 automated tests, all passing when I run mvn test. That is 9 integration tests in TaskControllerIntegrationTest and 7 unit tests in TaskServiceTest. The current, full test suite results (17 tests, after Sprint 2 added the health check test) are captured in docs/evidence/test-results.txt, and a real passing CI run is captured in docs/evidence/ci-run-12cc514.log.
 
 ## Commit history
 
