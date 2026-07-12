@@ -1,5 +1,6 @@
 package com.taskflow.common;
 
+import com.taskflow.task.TaskNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -7,6 +8,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,5 +22,11 @@ public class ApiExceptionHandler {
                 .collect(Collectors.toList());
         ApiError error = new ApiError("Validation failed", details);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
+    @ExceptionHandler(TaskNotFoundException.class)
+    public ResponseEntity<ApiError> handleTaskNotFound(TaskNotFoundException ex) {
+        ApiError error = new ApiError(ex.getMessage(), Collections.emptyList());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 }

@@ -22,4 +22,10 @@ public class TaskService {
     public List<Task> listTasks() {
         return taskRepository.findAll();
     }
+
+    public Task getTask(Long id) {
+        // Throwing keeps the controller a thin pass-through; ApiExceptionHandler maps this to 404.
+        return taskRepository.findById(id)
+                .orElseThrow(() -> new TaskNotFoundException(id));
+    }
 }

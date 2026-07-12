@@ -4,6 +4,7 @@ import com.taskflow.task.dto.CreateTaskRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,5 +32,10 @@ public class TaskController {
     @GetMapping
     public ResponseEntity<List<Task>> listTasks() {
         return ResponseEntity.ok(taskService.listTasks());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Task> getTask(@PathVariable Long id) {
+        return ResponseEntity.ok(taskService.getTask(id));
     }
 }

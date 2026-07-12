@@ -9,8 +9,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -65,5 +67,27 @@ class TaskServiceTest {
         List<Task> tasks = taskService.listTasks();
 
         assertThat(tasks).isEmpty();
+    }
+
+    @Test
+    void getTaskReturnsTaskWhenFound() {
+        TaskService taskService = new TaskService(taskRepository);
+        Task existing = new Task("Existing task", "Already recorded", Priority.LOW);
+
+        when(taskRepository.findById(1L)).thenReturn(Optional.of(existing));
+
+        Task task = taskService.getTask(1L);
+
+        assertThat(task.getTitle()).isEqualTo("Existing task");
+    }
+
+    @Test
+    void getTaskThrowsWhenNotFound() {
+        TaskService taskService = new TaskService(taskRepository);
+
+        when(taskRepository.findById(1L)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> taskService.getTask(1L))
+                .isInstanceOf(TaskNotFoundException.class);
     }
 }

@@ -78,4 +78,28 @@ class TaskControllerIntegrationTest {
                 .andExpect(jsonPath("$.length()").value(1))
                 .andExpect(jsonPath("$[0].title").value("Draft agenda"));
     }
+
+    @Test
+    void getTaskByIdReturnsTaskWhenFound() throws Exception {
+        CreateTaskRequest request = new CreateTaskRequest();
+        request.setTitle("Draft agenda");
+        request.setPriority(Priority.LOW);
+
+        String response = mockMvc.perform(post("/api/tasks")
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(request)))
+                .andReturn().getResponse().getContentAsString();
+
+        Long id = objectMapper.readTree(response).get("id").asLong();
+
+        mockMvc.perform(get("/api/tasks/{id}", id))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.title").value("Draft agenda"));
+    }
+
+    @Test
+    void getTaskByIdReturnsNotFoundWhenMissing() throws Exception {
+        mockMvc.perform(get("/api/tasks/{id}", 999))
+                .andExpect(status().isNotFound());
+    }
 }
