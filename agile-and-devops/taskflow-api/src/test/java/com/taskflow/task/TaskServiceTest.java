@@ -90,4 +90,27 @@ class TaskServiceTest {
         assertThatThrownBy(() -> taskService.getTask(1L))
                 .isInstanceOf(TaskNotFoundException.class);
     }
+
+    @Test
+    void updateStatusChangesStatusAndPersists() {
+        TaskService taskService = new TaskService(taskRepository);
+        Task existing = new Task("Existing task", "Already recorded", Priority.LOW);
+
+        when(taskRepository.findById(1L)).thenReturn(Optional.of(existing));
+        when(taskRepository.save(existing)).thenReturn(existing);
+
+        Task updated = taskService.updateStatus(1L, TaskStatus.IN_PROGRESS);
+
+        assertThat(updated.getStatus()).isEqualTo(TaskStatus.IN_PROGRESS);
+    }
+
+    @Test
+    void updateStatusThrowsWhenTaskNotFound() {
+        TaskService taskService = new TaskService(taskRepository);
+
+        when(taskRepository.findById(1L)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> taskService.updateStatus(1L, TaskStatus.DONE))
+                .isInstanceOf(TaskNotFoundException.class);
+    }
 }
