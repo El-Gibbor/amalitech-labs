@@ -28,4 +28,10 @@ public class TaskService {
         return taskRepository.findById(id)
                 .orElseThrow(() -> new TaskNotFoundException(id));
     }
+
+    public Task updateStatus(Long id, TaskStatus status) {
+        Task task = getTask(id);
+        task.setStatus(status);
+        return taskRepository.save(task);
+    }
 }
