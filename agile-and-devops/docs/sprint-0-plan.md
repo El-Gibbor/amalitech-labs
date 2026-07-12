@@ -27,17 +27,17 @@ A backlog item is considered done when all of the following conditions are satis
 | 1 | Create a task | 3 |
 | 2 | List all tasks | 2 |
 | 3 | Retrieve a single task by id | 1 |
+| 4 | Update task status | 3 |
 
-**Sprint 1 capacity:** 6 story points.
+**Sprint 1 capacity:** 9 story points.
 
-**Out of scope for Sprint 1:** Status updates, deletion, and filtering (stories 4 through 6), reserved for Sprint 2 alongside monitoring and logging.
+Note: the backlog was refined mid-Sprint-1 to 4 must-have stories (delete and filter-by-status cut). With reduced scope, all 4 remaining stories were delivered within Sprint 1 instead of the original 3, leaving story time for the CI pipeline as well. See the Sprint 1 Review for details.
 
-## Remaining Backlog (candidates for Sprint 2)
+## Remaining Backlog (Sprint 2)
 
 | # | Story | Estimate |
 |---|-------|----------|
-| 4 | Update task status | 3 |
-| 5 | Delete a task | 2 |
-| 6 | Filter tasks by status | 3 |
+| 5 | Health check endpoint | 1 |
+| 6 | Log key task operations | 2 |
 
-Final Sprint 2 selection will be confirmed at the start of Sprint 2 and will account for the Sprint 1 retrospective.
+Stories 5 and 6 were added during Sprint 2 refinement to satisfy the monitoring/logging requirement as genuine backlog items, since the original backlog was fully delivered in Sprint 1.

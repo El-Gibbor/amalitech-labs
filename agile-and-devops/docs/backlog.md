@@ -12,10 +12,12 @@ Stories are prioritized using the MoSCoW method and estimated in story points us
 | 2 | As a user, I want to view a list of all my tasks, so that I can see everything I need to work on. | Must have | 2 |
 | 3 | As a user, I want to retrieve a single task by its id, so that I can view its full details. | Must have | 1 |
 | 4 | As a user, I want to update the status of a task (TODO, IN_PROGRESS, DONE), so that I can track its progress. | Must have | 3 |
+| 5 | As an operator, I want a health check endpoint, so that I can verify the service is running. | Must have | 1 |
+| 6 | As an operator, I want key task operations logged, so that I can trace what happened when investigating an issue. | Must have | 2 |
 
-Total backlog: 4 stories, 9 story points.
+Total backlog: 6 stories, 12 story points.
 
-Delete and filter-by-status were cut during backlog refinement to keep scope achievable within two sprints; may be picked up later if time allows.
+Delete and filter-by-status were cut during backlog refinement to keep scope achievable within two sprints; may be picked up later if time allows. Stories 5 and 6 were added during Sprint 2 refinement to cover the monitoring/logging requirement while keeping Sprint 2 delivering genuinely new backlog items.
 
 ## Acceptance Criteria
 
@@ -34,3 +36,10 @@ Delete and filter-by-status were cut during backlog refinement to keep scope ach
 **4. Update task status**
 - Given a task exists, when its status is updated to a valid value (`TODO`, `IN_PROGRESS`, `DONE`), then the API returns the task with the updated status.
 - Given an invalid status value is submitted, when the update is requested, then the API rejects the request and the task's status remains unchanged.
+
+**5. Health check endpoint**
+- Given the service is running, when the health endpoint is requested, then the API returns a 200 response indicating the service is up.
+
+**6. Log key task operations**
+- Given a task is created or its status is updated, when the operation completes, then a log entry is written recording the operation and the task id.
+- Given a request is rejected (validation failure or not-found), when the error is handled, then a log entry is written recording the error.
