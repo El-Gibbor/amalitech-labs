@@ -7,6 +7,9 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Collections;
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -38,5 +41,29 @@ class TaskServiceTest {
         assertThat(captor.getValue().getPriority()).isEqualTo(Priority.HIGH);
         assertThat(captor.getValue().getStatus()).isEqualTo(TaskStatus.TODO);
         assertThat(created.getStatus()).isEqualTo(TaskStatus.TODO);
+    }
+
+    @Test
+    void listTasksReturnsAllTasksFromRepository() {
+        TaskService taskService = new TaskService(taskRepository);
+        Task existing = new Task("Existing task", "Already recorded", Priority.LOW);
+
+        when(taskRepository.findAll()).thenReturn(Collections.singletonList(existing));
+
+        List<Task> tasks = taskService.listTasks();
+
+        assertThat(tasks).hasSize(1);
+        assertThat(tasks.get(0).getTitle()).isEqualTo("Existing task");
+    }
+
+    @Test
+    void listTasksReturnsEmptyListWhenNoneExist() {
+        TaskService taskService = new TaskService(taskRepository);
+
+        when(taskRepository.findAll()).thenReturn(Collections.emptyList());
+
+        List<Task> tasks = taskService.listTasks();
+
+        assertThat(tasks).isEmpty();
     }
 }

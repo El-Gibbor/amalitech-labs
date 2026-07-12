@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.taskflow.task.dto.CreateTaskRequest;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -52,5 +53,29 @@ class TaskControllerIntegrationTest {
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void listTasksReturnsEmptyListWhenNoneExist() throws Exception {
+        mockMvc.perform(get("/api/tasks"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$").isEmpty());
+    }
+
+    @Test
+    void listTasksReturnsPreviouslyCreatedTasks() throws Exception {
+        CreateTaskRequest request = new CreateTaskRequest();
+        request.setTitle("Draft agenda");
+        request.setPriority(Priority.LOW);
+
+        mockMvc.perform(post("/api/tasks")
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(request)));
+
+        mockMvc.perform(get("/api/tasks"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(1))
+                .andExpect(jsonPath("$[0].title").value("Draft agenda"));
     }
 }
