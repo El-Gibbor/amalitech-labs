@@ -1,0 +1,29 @@
+name: taskflow-api CI
+
+on:
+  push:
+    paths:
+      - "agile-and-devops/taskflow-api/**"
+      - ".github/workflows/taskflow-api-ci.yml"
+  pull_request:
+    paths:
+      - "agile-and-devops/taskflow-api/**"
+      - ".github/workflows/taskflow-api-ci.yml"
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: agile-and-devops/taskflow-api
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "11"
+          cache: maven
+
+      - name: Run tests
+        run: mvn -B test
